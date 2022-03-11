@@ -3,9 +3,8 @@ set(CMAKE_ALLOW_LOOSE_LOOP_CONSTRUCTS ON)
 
 project(zlib LANGUAGES C VERSION 1.2.11.1)
 
-
-option(ASM686 "Enable building i686 assembly implementation")
-option(AMD64 "Enable building amd64 assembly implementation")
+option(ZLIB_ASM686 "Enable building i686 assembly implementation")
+option(ZLIB_AMD64 "Enable building amd64 assembly implementation")
 
 set(INSTALL_BIN_DIR bin CACHE PATH "Installation directory for executables")
 set(INSTALL_LIB_DIR lib CACHE PATH "Installation directory for libraries")
@@ -129,9 +128,9 @@ if(NOT MINGW)
 endif()
 
 if(CMAKE_COMPILER_IS_GNUCC)
-    if(ASM686)
+    if(ZLIB_ASM686)
         set(ZLIB_ASMS contrib/asm686/match.S)
-    elseif (AMD64)
+    elseif (ZLIB_AMD64)
         set(ZLIB_ASMS contrib/amd64/amd64-match.S)
     endif ()
 
@@ -142,13 +141,13 @@ if(CMAKE_COMPILER_IS_GNUCC)
 endif()
 
 if(MSVC)
-    if(ASM686)
+    if(ZLIB_ASM686)
 		ENABLE_LANGUAGE(ASM_MASM)
         set(ZLIB_ASMS
 			contrib/masmx86/inffas32.asm
 			contrib/masmx86/match686.asm
 		)
-    elseif (AMD64)
+    elseif (ZLIB_AMD64)
 		ENABLE_LANGUAGE(ASM_MASM)
         set(ZLIB_ASMS
 			contrib/masmx64/gvmat64.asm
